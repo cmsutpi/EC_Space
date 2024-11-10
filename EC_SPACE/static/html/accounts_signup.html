@@ -8,12 +8,51 @@
 </head>
 
 <body>
-    <div id="navbar"></div><br>
+    <div id="navbar"></div> 
+
     <h1>회원 가입</h1>
-    
-    
-    <section class="content-section">
-        <section class="search-section"></section>
-    </section>
+    <form id="signup-form" enctype="multipart/form-data"></form> <!-- 이미지 업로드를 위해 enctype 추가 -->
+    <div class = "form-group">
+        <label for="user_id">아이디:</label>
+        <input type="text" id="user_id" name="user_id" required><br><br>
+
+        <label for="password">비밀 번호:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="password-check">비밀 번호 확인:</label>
+        <input type="password" id="password-confirm" name="password-confirm" required><br><br>
+
+        <label for="name">이름:</label>
+        <input type="text" id="name" name="name" required><br><br>
+    </div>
+
+    <div class = "form-group">
+        <label for="email">이메일:</label>
+        <input type="text" id="email" name="email" required><br><br>      
+        
+        <label for="job">직업:</label>
+        <input type="text" id="job" name="job" required><br><br>
+
+        <label for="workplace">직장:</label>
+        <input type="text" id="workplace" name="workplace" required><br><br>
+
+        <label for="employment_type">고용 형태:</label>
+        <input type="text" id="employment_type" name="employment_type" required><br><br>
+
+        <label for="phone_number">전화 번호:</label>
+        <input type="text" id="phone_number" name="phone_number" required><br><br>
+    </div>
+
+    <div class = "form-group">
+        <label for="profile_image">프로필 이미지:</label>
+        <input type="file" id="profile_image" name="profile_image" accept="image/*"><br><br>
+        
+    <div class = "form-group">
+        <label for="bio">자기소개 (선택)</label><br><br>
+        <textarea id="bio" name="bio" rows="4" cols="30" placeholder="자기 소개는 300자 이내로 입력하세요."></textarea>
+    </div>
+<br>
+    <button type="submit">회원 가입</button>
+
 </body>
 </html>
