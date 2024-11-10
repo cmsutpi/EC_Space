@@ -4,13 +4,13 @@ from django.core.validators import RegexValidator
 
 class User(AbstractUser):
     name = models.CharField(max_length=20)
-    job = models.CharField(max_legnth=20)
+    job = models.CharField(max_length=10)
     bio = models.TextField(null=True, blank=True) # 공백이어도 상관없음.
     profile_image = models.ImageField(
         upload_to="user/image/%Y/%m/%d/", null=True, blank=True
     )
-    workplace = models.CharField()
-    employment_type = models.CharField()
+    workplace = models.CharField(max_length=10)
+    employment_type = models.CharField(max_length=10)
     email = models.EmailField()
     phone_number = models.CharField(
         max_length=13,

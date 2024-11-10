@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 from .validators import validate_user_data
 from .serializers import (
@@ -31,5 +32,29 @@ class UserCreateView(APIView):
         user = User.objects.create_user(**validate_user_data)
 
         # 생성된 사용자 직렬화 후 반환
-        serializer = UserSerializer(user)
+        serializer = UserSerializer(user) # 사용자 정보를 직렬화하여 JSON 데이터 형식으로 반환
         return Response(serializer.data, status=201)
+
+class UserLoginView(APIView):
+    
+    def post(self, request):
+        username=request.data.get("username")
+        password=request.data.get("password")
+
+        user = authenticate(username=username, password=password)
+        if not user:
+            return Response(
+                {"message": "아이디 또는 비밀번호가 틀렸습니다"}, status=400 
+            )
+        
+        refresh = RefreshToken.for_user(user)
+        
+        serializer = UserSerializer(user)
+        
+        return Response(
+            {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+                "user_info": serializer.data,
+            }
+        )
