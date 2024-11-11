@@ -1,12 +1,15 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
 from .validators import validate_user_data
 from .serializers import (
     UserSerializer,
+    UserProfileSerializer,
+    MyProfileSerializer,
 )
 
 class UserCreateView(APIView):
@@ -36,7 +39,7 @@ class UserCreateView(APIView):
         return Response(serializer.data, status=201)
 
 class UserLoginView(APIView):
-    
+
     def post(self, request):
         username=request.data.get("username")
         password=request.data.get("password")
@@ -58,3 +61,19 @@ class UserLoginView(APIView):
                 "user_info": serializer.data,
             }
         )
+
+class UserProfileView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, user_id):
+        # 특정 사용자의 프로필 조희
+        user=get_object_or_404(User, user_id=user_id)
+
+        if request.user == user:
+            serializer = UserProfileSerializer(user)
+            return Response(serializer.data)
+        else:
+        # 현재 로그인한 사용자 프로필 조회
+            serializer = MyProfileSerializer(user)
+            return Response(serializer.data)
